@@ -1,0 +1,7 @@
+.background{
+	background-color:#eee；
+}
+.icon_sysmng{background: url('../img/sys.png') no-repeat center center;}
+.icon_resource{background: url('../img/resource.png') no-repeat center center;}
+#header{overflow:hidden;height:69px;background:#224EAF ;line-height:64px;color:#fff;font-family:Verdana,微软雅黑,黑体} 
+.header{background: url(../img/logo.png) no-repeat left; width: 400px; height: 60px; float: left;}

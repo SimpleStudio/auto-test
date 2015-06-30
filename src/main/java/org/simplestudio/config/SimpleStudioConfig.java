@@ -11,6 +11,7 @@ import com.jfinal.config.Routes;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
+import com.jfinal.render.ViewType;
 
 /**
  * @author zhengzhq E-mail:zzq0324@qq.com
@@ -21,7 +22,9 @@ public class SimpleStudioConfig extends JFinalConfig {
 	@Override
 	public void configConstant(Constants me) {
 		PropKit.use("config.properties");
-		me.setDevMode(PropKit.getBoolean("devMode", false));
+		me.setDevMode(PropKit.getBoolean("devMode", true));
+		me.setViewType(ViewType.JSP);
+		me.setBaseViewPath("WEB-INF/views/");
 	}
 
 	@Override
