@@ -43,7 +43,7 @@ public class StepTplController extends Controller {
 		String expectSqlSelect = "from t_steptpl where 1=1";
 		String key = getPara("key");
 		if (StringUtils.isNotBlank(key)) {
-			expectSqlSelect += " and name like '%" + key + "%'";
+			expectSqlSelect += " and name like '%" + key.trim() + "%'";
 		}
 		expectSqlSelect += " order by create_time desc ";
 		Page<StepTpl> page = StepTpl.dao.paginate(pageNumber, pageSize,

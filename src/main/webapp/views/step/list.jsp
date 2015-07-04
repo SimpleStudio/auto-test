@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <script type="text/javascript">
-  var stepTplDataGrid = $('#stepTplDataGrid').datagrid({
+  var dataGrid = $('#dataGrid').datagrid({
 		url : '${ctx}' + '/steptpl/dataGrid',
 		striped : true,
 		rownumbers : true,
@@ -33,7 +33,7 @@
 	});
 	
 </script>
-<table id="stepTplDataGrid"></table>
+<table id="dataGrid"></table>
 <div id="toolbar" style="padding:2px 5px;">
     <table style="width: 100%;">
     	<tr>
@@ -43,17 +43,17 @@
        			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="batchDel()">删除</a>
     		</td>
     		<td align="right">
-      			<input id="stepTplSearchKey" class="easyui-textbox" data-options="buttonText:'搜索',buttonIcon:'icon-search',prompt:'请输入过滤的模板名称'" style="width:250px;height:24px;">
+      			<input class="easyui-textbox" data-options="buttonText:'搜索',buttonIcon:'icon-search',prompt:'请输入过滤的模板名称'" style="width:250px;height:24px;">
     		</td>
     	</tr>
     </table>
 </div>
-<div id="stepTplDialog"></div>
+<div id="savePageDialog"></div>
 <script type="text/javascript">
 	function save(type){
 		var href = '${ctx}/steptpl/savePage';
 		if(type == 1){
-			var selects = $('#stepTplDataGrid').datagrid('getSelections');
+			var selects = $('#dataGrid').datagrid('getSelections');
 			if(!selects || selects.length == 0){
 				$.messager.show({
 	                title:'系统提示',
@@ -72,8 +72,8 @@
 			}
 			href+="?id="+selects[0].id;
 		}
-		$('#stepTplDialog').dialog({
-			title : type==0?'添加步骤模板':'编辑步骤模板',
+		$('#savePageDialog').dialog({
+			title : '添加步骤模板',
 			width : 450,
 			height : 235,
 			href : href,
@@ -85,8 +85,8 @@
 					$('#tplManageForm').form('submit',{
 						url:'${ctx }/steptpl/save',
 						success:function(){
-							$('#stepTplDialog').dialog('close');
-							$('#stepTplDataGrid').datagrid('reload');
+							$('#savePageDialog').dialog('close');
+							$('#dataGrid').datagrid('reload');
 						}
 					});
 				}
@@ -94,7 +94,7 @@
 				text:'取消',
 				iconCls:'icon-cancel',
 				handler:function(){
-					$('#stepTplDialog').dialog('close');
+					$('#savePageDialog').dialog('close');
 				}
 			}]
 		});
@@ -102,7 +102,7 @@
 	function batchDel(){
 		$.messager.confirm('确认', '您确认删除选中的记录吗？', function(r){
 			if (r){
-				var selects = $('#stepTplDataGrid').datagrid('getSelections');
+				var selects = $('#dataGrid').datagrid('getSelections');
 				if(selects.length == 0){
 					$.messager.show({
 		                title:'系统提示',
@@ -119,15 +119,10 @@
 					ids+=selects[i].id;
 				}
 				$.post('${ctx}/steptpl/delete',{ids:ids},function(data){
-					$('#stepTplDataGrid').datagrid('reload');
+					$('#dataGrid').datagrid('reload');
 				});
 			}
 		});
+		
 	}
-	$('#stepTplSearchKey').textbox({
-		onClickButton : function(){
-			var searchKey = $('#stepTplSearchKey').textbox('getValue');
-			$('#stepTplDataGrid').datagrid('load',{'key':searchKey});
-		}
-	});
 </script>

@@ -1,7 +1,14 @@
 [
     {
+        "text": "常量管理",
+        "iconCls": "icon_constant",
+        "attributes": {
+            "url": "/constant/list"
+        }
+    },
+    {
         "text": "步骤模板管理",
-        "iconCls": "icon_step",
+        "iconCls": "icon_steptpl",
         "attributes": {
             "url": "/steptpl/list"
         }

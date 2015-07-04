@@ -11,7 +11,10 @@ public class Step extends Model<Step>{
 	private static final long serialVersionUID = -3455463486901397150L;
 	public static final Step dao = new Step();
 	public static final String ID = "id";
-	public static final String TYPE = "type";
-	public static final String SENTENCE = "sentence";
+	public static final String NAME = "name";
+	//步骤模板id
+	public static final String TPL_ID = "tpl_id";
+	//参数值
+	public static final String PARAM_VALUE = "param_value";
 	
 }

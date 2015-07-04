@@ -46,8 +46,16 @@
 	background: url('../img/step.gif') no-repeat center center;
 }
 
+.icon_steptpl {
+	background: url('../img/steptpl.gif') no-repeat center center;
+}
+
 .icon_scenriao {
 	background: url('../img/scenriao.gif') no-repeat center center;
+}
+
+.icon_constant {
+	background: url('../img/constant.gif') no-repeat center center;
 }
 
 .grid {
