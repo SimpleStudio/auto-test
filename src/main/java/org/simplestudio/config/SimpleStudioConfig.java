@@ -2,6 +2,7 @@ package org.simplestudio.config;
 
 import org.simplestudio.controller.IndexController;
 import org.simplestudio.controller.StepTplController;
+import org.simplestudio.dao.StepTpl;
 
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -47,6 +48,10 @@ public class SimpleStudioConfig extends JFinalConfig {
 		// 配置ActiveRecord插件
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(c3p0Plugin);
 		plugins.add(arp);
+		arp.setShowSql(true);
+		
+		//配置表与model的映射
+		arp.addMapping("t_steptpl", StepTpl.class);
 	}
 
 	@Override
