@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="WEB-INF/views/common/include.jsp" %>
+<%@ include file="views/common/include.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -22,11 +22,11 @@
         	<table>
         		<tr>
         			<td>帐号：</td>
-        			<td><input class="easyui-validatebox easyui-textbox" data-options="required:true,prompt:'请输入帐号'" style="height:30px" name="account" id="account"></td>
+        			<td><input class="easyui-validatebox easyui-textbox" data-options="required:true,prompt:'请输入帐号',iconCls:'icon-man',iconWidth:38" style="height:30px" name="account" id="account"></td>
         		</tr>
         		<tr>
         			<td>密码：</td>
-        			<td><input class="easyui-validatebox easyui-textbox" data-options="required:true,prompt:'请输入密码'" style="height:30px" name="password"></td>
+        			<td><input class="easyui-validatebox easyui-textbox" data-options="required:true,prompt:'请输入密码',iconCls:'icon-lock',iconWidth:38" style="height:30px" name="password"></td>
         		</tr>
         	</table>
              <div style="padding:5px 0;text-align: center;color: red;" id="showMsg"></div>

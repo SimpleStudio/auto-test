@@ -1,0 +1,30 @@
+[
+    {
+        "text": "步骤模板管理",
+        "iconCls": "icon_step",
+        "attributes": {
+            "url": "/steptpl/list"
+        }
+    },
+    {
+        "text": "测试步骤管理",
+        "iconCls": "icon_step",
+        "attributes": {
+            "url": "/demo/book/abc"
+        }
+    },
+    {
+        "text": "测试场景管理",
+        "iconCls": "icon_scenriao",
+        "attributes": {
+            "url": "/demo/book/abc"
+        }
+    },
+    {
+        "text": "测试特性管理",
+        "iconCls": "icon_feature",
+        "attributes": {
+            "url": "/demo/book/abc"
+        }
+    }
+]

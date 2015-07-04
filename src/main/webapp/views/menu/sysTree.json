@@ -1,0 +1,16 @@
+[
+    {
+        "text": "系统参数配置",
+        "iconCls": "icon_setting",
+        "attributes": {
+            "url": "/demo/book/abc"
+        }
+    },
+    {
+        "text": "用户管理",
+        "iconCls": "icon_user",
+        "attributes": {
+            "url": "/demo/book/abc"
+        }
+    }
+]

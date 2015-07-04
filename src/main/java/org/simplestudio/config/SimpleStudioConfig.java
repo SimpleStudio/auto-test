@@ -1,6 +1,7 @@
 package org.simplestudio.config;
 
 import org.simplestudio.controller.IndexController;
+import org.simplestudio.controller.StepTplController;
 
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -24,7 +25,7 @@ public class SimpleStudioConfig extends JFinalConfig {
 		PropKit.use("config.properties");
 		me.setDevMode(PropKit.getBoolean("devMode", true));
 		me.setViewType(ViewType.JSP);
-		me.setBaseViewPath("WEB-INF/views/");
+		me.setBaseViewPath("views/");
 	}
 
 	@Override
@@ -51,6 +52,7 @@ public class SimpleStudioConfig extends JFinalConfig {
 	@Override
 	public void configRoute(Routes routes) {
 		routes.add("/",IndexController.class);
+		routes.add("/steptpl",StepTplController.class);
 	}
 
 }

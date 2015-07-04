@@ -24,23 +24,65 @@
     </div>
     <div data-options="region:'south',collapsible:false" style="height:30px;text-align: center;"><a style="text-decoration: none;" href="https://github.com/simpleStudio">版权所有@SimpleStudio</a></div>
     <div data-options="region:'west',title:'菜单列表'" style="width:250px;background:#eee;">
-    	<div id="aa" class="easyui-accordion" style="height: 100%;">
-		    <div title="系统管理" data-options="iconCls:'icon_sysmng'" style="overflow:auto;padding:10px;">
-		        <h3 style="color:#0099FF;">Accordion for jQuery</h3>
-		        <p>Accordion is a part of easyui framework for jQuery. 
-		        It lets you define your accordion component on web page more easily.</p>
+    	<div class="easyui-accordion" style="height: 100%;">
+		    <div title="系统管理" id="sysTree" data-options="iconCls:'icon_sysmng'" style="overflow:auto;">
 		    </div>
-		    <div title="自动化管理" data-options="iconCls:'icon_resource'">
-		        content3
+		    <div title="自动化管理" data-options="iconCls:'icon_resource'" id="autoTree">
 		    </div>
 		</div>
     </div>
-    <div data-options="region:'center'" style="background:#eee;">
-    	<div id="tt" class="easyui-tabs">
+    <div data-options="region:'center'">
+    	<div id="tabDiv" class="easyui-tabs" data-options="fit:true">
 		    <div title="首页" style="background:#eee;">
 		        <h3>自动化测试管理系统</h3>
 		    </div>
 		</div>
     </div>
 </body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#autoTree').tree({
+		    url:'views/menu/autoTree.json',
+		    onClick : function(node){
+		    	onTreeNodeClick(node);
+		    }
+		});
+		$('#sysTree').tree({
+		    url:'views/menu/sysTree.json',
+		    onClick : function(node){
+		    	onTreeNodeClick(node);
+		    }
+		});
+		
+		function refreshTab(){
+			var currentTab = $('#tabDiv').tabs('getSelected');
+        	$('#tabDiv').tabs('update',{
+        		tab : currentTab,
+        		options : {
+        			href : currentTab.href,
+        			tools:[]
+        		}
+        	});
+		}
+		
+		function onTreeNodeClick(node){
+			var exists = $("#tabDiv").tabs('exists',node.text);
+			if(!exists){//新增tab
+				$('#tabDiv').tabs('add',{
+				    title:node.text,
+				    href:node.attributes.url,
+				    closable:true,
+				    tools:[{
+				        iconCls:'icon-mini-refresh',
+				        handler:function(){
+				        	refreshTab();
+				        }
+				    }]
+				});
+			}else{//原先的tab设置为active
+				$("#tabDiv").tabs('select',node.text);
+			}
+		}
+	});
+</script>
 </html>

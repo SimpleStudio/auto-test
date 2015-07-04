@@ -1,7 +1,51 @@
-.background{
-	background-color:#eee；
+.background {
+	background-color: #eee；
 }
-.icon_sysmng{background: url('../img/sys.png') no-repeat center center;}
-.icon_resource{background: url('../img/resource.png') no-repeat center center;}
-#header{overflow:hidden;height:69px;background:#224EAF ;line-height:64px;color:#fff;font-family:Verdana,微软雅黑,黑体} 
-.header{background: url(../img/logo.png) no-repeat left; width: 400px; height: 60px; float: left;}
+
+.icon_sysmng {
+	background: url('../img/sys.png') no-repeat center center;
+}
+
+.icon_resource {
+	background: url('../img/resource.png') no-repeat center center;
+}
+
+#header {
+	overflow: hidden;
+	height: 69px;
+	background: #224EAF;
+	line-height: 64px;
+	color: #fff;
+	font-family: Verdana, 微软雅黑, 黑体
+}
+
+.header {
+	background: url(../img/logo.png) no-repeat left;
+	width: 400px;
+	height: 60px;
+	float: left;
+}
+
+* {
+	font-family: '微软雅黑', verdana, helvetica, arial, sans-serif;;
+}
+
+.icon_setting {
+	background: url('../img/setting.gif') no-repeat center center;
+}
+
+.icon_user {
+	background: url('../img/user.gif') no-repeat center center;
+}
+
+.icon_feature {
+	background: url('../img/feature.gif') no-repeat center center;
+}
+
+.icon_step {
+	background: url('../img/step.gif') no-repeat center center;
+}
+
+.icon_scenriao {
+	background: url('../img/scenriao.gif') no-repeat center center;
+}
