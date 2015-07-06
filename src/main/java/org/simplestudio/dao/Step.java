@@ -14,7 +14,5 @@ public class Step extends Model<Step>{
 	public static final String NAME = "name";
 	//步骤模板id
 	public static final String TPL_ID = "tpl_id";
-	//参数值
-	public static final String PARAM_VALUE = "param_value";
-	
+	public static final String CREATE_TIME = "create_time";
 }

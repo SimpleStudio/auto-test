@@ -29,12 +29,12 @@
 			field : 'value',
 			sortable : true
 		}] ],
-		toolbar : '#toolbar'
+		toolbar : '#constantToolbar'
 	});
 	
 </script>
 <table id="constantDataGrid"></table>
-<div id="toolbar" style="padding:2px 5px;">
+<div id="constantToolbar" style="padding:2px 5px;">
     <table style="width: 100%;">
     	<tr>
     		<td>

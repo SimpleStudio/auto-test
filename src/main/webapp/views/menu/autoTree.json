@@ -17,7 +17,7 @@
         "text": "测试步骤管理",
         "iconCls": "icon_step",
         "attributes": {
-            "url": "/demo/book/abc"
+            "url": "/step/list"
         }
     },
     {

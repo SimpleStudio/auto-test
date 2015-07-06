@@ -11,6 +11,7 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/style/studio.css">
 <script type="text/javascript" src="${ctx}/jquery-easyui-1.4.2/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${ctx}/jquery-easyui-1.4.2/datagrid-detailview.js"></script>
 <script type="text/javascript" src="${ctx}/jquery-easyui-1.4.2/locale/easyui-lang-zh_CN.js"></script>
 <title>自动化测试管理系统</title>
 </head>

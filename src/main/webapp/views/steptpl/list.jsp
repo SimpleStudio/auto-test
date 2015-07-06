@@ -29,12 +29,12 @@
 			field : 'expression',
 			sortable : true
 		}] ],
-		toolbar : '#toolbar'
+		toolbar : '#stepTplToolbar'
 	});
 	
 </script>
 <table id="stepTplDataGrid"></table>
-<div id="toolbar" style="padding:2px 5px;">
+<div id="stepTplToolbar" style="padding:2px 5px;">
     <table style="width: 100%;">
     	<tr>
     		<td>

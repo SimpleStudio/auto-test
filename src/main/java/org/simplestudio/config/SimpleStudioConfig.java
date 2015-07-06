@@ -2,8 +2,10 @@ package org.simplestudio.config;
 
 import org.simplestudio.controller.ConstantController;
 import org.simplestudio.controller.IndexController;
+import org.simplestudio.controller.StepController;
 import org.simplestudio.controller.StepTplController;
 import org.simplestudio.dao.Constant;
+import org.simplestudio.dao.Step;
 import org.simplestudio.dao.StepTpl;
 
 import com.jfinal.config.Constants;
@@ -55,6 +57,7 @@ public class SimpleStudioConfig extends JFinalConfig {
 		//配置表与model的映射
 		arp.addMapping("t_steptpl", StepTpl.class);
 		arp.addMapping("t_constant", Constant.class);
+		arp.addMapping("t_step", Step.class);
 	}
 
 	@Override
@@ -62,6 +65,7 @@ public class SimpleStudioConfig extends JFinalConfig {
 		routes.add("/",IndexController.class);
 		routes.add("/steptpl",StepTplController.class);
 		routes.add("/constant",ConstantController.class);
+		routes.add("/step",StepController.class);
 	}
 
 }
