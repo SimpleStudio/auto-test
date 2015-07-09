@@ -104,7 +104,9 @@
                         	 title:'参数值',
                         	 width:'98%', 
                         	 formatter:function(value,row){
-	                             return row.name+'('+row.value+')';
+                        		 if(row.name){
+                        			 return row.name+'('+row.value+')';
+                        		 }
     	                     },
                         	 editor:{
 	                             type:'combobox',
@@ -117,6 +119,14 @@
 	                             }}
                          	}
                      ]],
+                     onResize:function(){
+                    	 $('#stepDataGrid').datagrid('fixDetailRowHeight',index);
+                     },
+                     onLoadSuccess:function(){
+                         setTimeout(function(){
+                        	 $('#stepDataGrid').datagrid('fixDetailRowHeight',index);
+                         },0);
+                     },
                      onClickRow:function(index){
                     	 editSuGridIndex = index;
                     	 ddv.datagrid('beginEdit',index);
@@ -149,9 +159,9 @@
                    		 }
                      }]
                  });
+                 $('#stepDataGrid').datagrid('fixDetailRowHeight',index);
              }
          });
-         $('.datagrid-body').css({'width':'700'});
      });
 	function saveStep(type){
 		var href = '${ctx}/step/savePage';
