@@ -1,5 +1,7 @@
 package org.simplestudio.controller;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.simplestudio.dao.StepTpl;
 import org.simplestudio.util.ConstantUtil;
@@ -49,6 +51,12 @@ public class StepTplController extends Controller {
 		Page<StepTpl> page = StepTpl.dao.paginate(pageNumber, pageSize,
 				"select *", expectSqlSelect);
 		renderJson(StudioUtil.convertPage2EasyUiPage(page));
+	}
+	
+	public void getStepTplList(){
+		String sql = "select * from t_steptpl";
+		List<StepTpl> stepTplList = StepTpl.dao.find(sql);
+		renderJson(stepTplList);
 	}
 
 	public void delete(){

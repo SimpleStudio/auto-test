@@ -4,9 +4,13 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.simplestudio.dao.Step;
+import org.simplestudio.dao.StepConst;
+import org.simplestudio.dao.StepTpl;
+import org.simplestudio.util.ConstantUtil;
 import org.simplestudio.util.StudioUtil;
 
 import com.jfinal.core.Controller;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 
 /** 
@@ -35,7 +39,14 @@ public class StepController extends Controller{
 	
 	public void subDataGrid(){
 		long stepId = getParaToLong("stepId");
-		List<Step> stepList = Step.dao.find("select * from t_step_const where step_id=?",stepId);
+		StepTpl stepTpl = StepTpl.dao.findFirst("select b.* from t_step a left join t_steptpl b on a.tpl_id=b.id where a.id=? ",stepId);
+		//获取参数个数
+		int argNum = StudioUtil.getArgsNumber(stepTpl.getStr("expression"));
+		List<Step> stepList = Step.dao.find("select a.step_id,a.constant_id,b.value,b.name from t_step_const a left join t_constant b on a.constant_id=b.id where step_id=? order by `order`",stepId);
+		int need = argNum - stepList.size();
+		while(need-->0){
+			stepList.add(new Step());
+		}
 		renderJson(stepList);
 	}
 	
@@ -44,14 +55,37 @@ public class StepController extends Controller{
 	}
 	
 	public void saveStepParamValue(){
-		
+		String ids = getPara("constIds");
+		long stepId = getParaToLong("stepId");
+		//删除与该步骤相关的参数
+		Db.update("delete from t_step_const where step_id=?", stepId);
+		String[] idArr = ids.split(",");
+		for(int i=0;i<idArr.length;i++){
+			StepConst stepConst = new StepConst();
+			stepConst.set("step_id", stepId);
+			stepConst.set("constant_id", Long.parseLong(idArr[i]));
+			stepConst.set("order", i+1);
+			stepConst.save();
+		}
+		renderText(ConstantUtil.RESULT_SUCCESS);
 	}
 	
-	public void deleteStep(){
-		
+	public void savePage() {
+		String idStr = getPara("id");
+		if (StringUtils.isNotBlank(idStr)) {// 编辑
+			Step step = Step.dao.findById(Long.parseLong(idStr));
+			setAttr("step", step);
+		}
+		renderJsp("stepMng.jsp");
 	}
 	
-	public void deleteStepParamValue(){
-		
+	public void save() {
+		Step step = getModel(Step.class);
+		if (step.getLong("id") != null) {// 编辑
+			step.update();
+		} else {
+			step.save();
+		}
+		renderText(ConstantUtil.RESULT_SUCCESS);
 	}
 }

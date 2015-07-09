@@ -1,5 +1,7 @@
 package org.simplestudio.controller;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.simplestudio.dao.Constant;
 import org.simplestudio.util.ConstantUtil;
@@ -29,6 +31,17 @@ public class ConstantController  extends Controller{
 		expectSqlSelect += " order by create_time desc ";
 		Page<Constant> page = Constant.dao.paginate(pageNumber, pageSize,"select *", expectSqlSelect);
 		renderJson(StudioUtil.convertPage2EasyUiPage(page));
+	}
+	
+	public void getConstList(){
+		String expectSqlSelect = "select id,concat(name,'(',value,')') as name from t_constant where 1=1";
+		String key = getPara("key");
+		if (StringUtils.isNotBlank(key)) {
+			expectSqlSelect += " and name like '%" + key.trim() + "%'";
+		}
+		expectSqlSelect+=" limit 200";
+		List<Constant> constList = Constant.dao.find(expectSqlSelect);
+		renderJson(constList);
 	}
 	
 	public void save() {

@@ -6,6 +6,7 @@ import org.simplestudio.controller.StepController;
 import org.simplestudio.controller.StepTplController;
 import org.simplestudio.dao.Constant;
 import org.simplestudio.dao.Step;
+import org.simplestudio.dao.StepConst;
 import org.simplestudio.dao.StepTpl;
 
 import com.jfinal.config.Constants;
@@ -58,6 +59,7 @@ public class SimpleStudioConfig extends JFinalConfig {
 		arp.addMapping("t_steptpl", StepTpl.class);
 		arp.addMapping("t_constant", Constant.class);
 		arp.addMapping("t_step", Step.class);
+		arp.addMapping("t_step_const", StepConst.class);
 	}
 
 	@Override

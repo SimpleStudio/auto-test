@@ -59,7 +59,7 @@ public class StudioUtil {
 	 * @param tpl
 	 * @return
 	 */
-	private static int getArgsNumber(String tpl){
+	public static int getArgsNumber(String tpl){
 		int number = 0;
 		Matcher matcher = TPL_PATTERN.matcher(tpl);
 		while(matcher.find()){

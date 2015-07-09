@@ -38,9 +38,9 @@
     <table style="width: 100%;">
     	<tr>
     		<td>
-    			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="save(0)">新增</a>
-       			<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="save(1)">编辑</a>
-       			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="batchDel()">删除</a>
+    			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="saveStepTpl(0)">新增</a>
+       			<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="saveStepTpl(1)">编辑</a>
+       			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="batchDelStepTpl()">删除</a>
     		</td>
     		<td align="right">
       			<input id="stepTplSearchKey" class="easyui-textbox" data-options="buttonText:'搜索',buttonIcon:'icon-search',prompt:'请输入过滤的模板名称'" style="width:250px;height:24px;">
@@ -50,7 +50,7 @@
 </div>
 <div id="stepTplDialog"></div>
 <script type="text/javascript">
-	function save(type){
+	function saveStepTpl(type){
 		var href = '${ctx}/steptpl/savePage';
 		if(type == 1){
 			var selects = $('#stepTplDataGrid').datagrid('getSelections');
@@ -99,7 +99,7 @@
 			}]
 		});
 	}
-	function batchDel(){
+	function batchDelStepTpl(){
 		$.messager.confirm('确认', '您确认删除选中的记录吗？', function(r){
 			if (r){
 				var selects = $('#stepTplDataGrid').datagrid('getSelections');
