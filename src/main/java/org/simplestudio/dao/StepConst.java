@@ -6,7 +6,7 @@ import com.jfinal.plugin.activerecord.Model;
  * @author zhengzhq E-mail:zzq0324@qq.com 
  * @version 创建时间：2015年7月9日 下午10:21:04 
  */
-public class StepConst extends Model<Step>{
+public class StepConst extends Model<StepConst>{
 
 	private static final long serialVersionUID = -5459126534247424213L;
 	public static final String STEP_ID = "step_id";

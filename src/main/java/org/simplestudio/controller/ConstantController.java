@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.simplestudio.dao.Constant;
+import org.simplestudio.dao.StepConst;
 import org.simplestudio.util.ConstantUtil;
 import org.simplestudio.util.StudioUtil;
 
@@ -64,13 +65,30 @@ public class ConstantController  extends Controller{
 	}
 	
 	public void delete(){
+		String renderText = "";
 		String ids = getPara("ids");
 		if(StringUtils.isNotBlank(ids)){
 			String[] idArr = ids.split(",");
+			StringBuffer errorMsg = new StringBuffer();
 			for(int i=0;i<idArr.length;i++){
-				Constant.dao.deleteById(Long.parseLong(idArr[i]));
+				StepConst stepConst = StepConst.dao.findFirst("select * from t_step_const where constant_id=?", Long.parseLong(idArr[i]));
+				if(stepConst != null){
+					if(errorMsg.length()>0){
+						errorMsg.append(",");
+					}
+					Constant constant = Constant.dao.findFirst("select name from t_constant where id=?", stepConst.getLong("constant_id"));
+					errorMsg.append("[").append(constant.getStr("name")).append("]");
+				}
+			}
+			if(errorMsg.length() == 0){
+				for(int i=0;i<idArr.length;i++){
+					Constant.dao.deleteById(Long.parseLong(idArr[i]));
+				}
+				renderText = ConstantUtil.RESULT_SUCCESS;
+			}else{
+				renderText = "常量"+errorMsg.toString()+"已经被引用，请先解除引用关系！";
 			}
 		}
-		renderText(ConstantUtil.RESULT_SUCCESS);
+		renderText(renderText);
 	}
 }

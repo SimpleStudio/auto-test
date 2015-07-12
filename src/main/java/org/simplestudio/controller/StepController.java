@@ -50,10 +50,6 @@ public class StepController extends Controller{
 		renderJson(stepList);
 	}
 	
-	public void saveStep(){
-		
-	}
-	
 	public void saveStepParamValue(){
 		String ids = getPara("constIds");
 		long stepId = getParaToLong("stepId");
@@ -88,4 +84,21 @@ public class StepController extends Controller{
 		}
 		renderText(ConstantUtil.RESULT_SUCCESS);
 	}
+	
+	public void detele(){
+		String ids = getPara("ids");
+		if(StringUtils.isNotBlank(ids)){
+			String[] idArr = ids.split(",");
+			for(String id : idArr){
+				long stepId = Long.parseLong(id);
+				//删除参数值
+				Db.update("delete from t_step_const where step_id=?",stepId);
+				//删除步骤
+				Step.dao.deleteById(stepId);
+			}
+		}
+		
+		renderText(ConstantUtil.RESULT_SUCCESS);
+	}
+	
 }

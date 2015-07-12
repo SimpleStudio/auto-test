@@ -119,7 +119,11 @@
 					ids+=selects[i].id;
 				}
 				$.post('${ctx}/steptpl/delete',{ids:ids},function(data){
-					$('#stepTplDataGrid').datagrid('reload');
+					if(data == 'success'){
+						$('#stepTplDataGrid').datagrid('reload');
+					}else{
+						$.messager.alert({title:'系统提示',msg:data});
+					}
 				});
 			}
 		});

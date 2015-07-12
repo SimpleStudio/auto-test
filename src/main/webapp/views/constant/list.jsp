@@ -119,7 +119,11 @@
 					ids+=selects[i].id;
 				}
 				$.post('${ctx}/constant/delete',{ids:ids},function(data){
-					$('#constantDataGrid').datagrid('reload');
+					if(data == 'success'){
+						$('#constantDataGrid').datagrid('reload');
+					}else{
+						$.messager.alert({title:'系统提示',msg:data});
+					}
 				});
 			}
 		});

@@ -12,5 +12,6 @@ public class Scenario  extends Model<Scenario>{
 	public static final Scenario dao = new Scenario();
 	public static final String ID = "id";
 	public static final String NAME = "name";
+	public static final String CREATE_TIME = "create_time";
 	
 }

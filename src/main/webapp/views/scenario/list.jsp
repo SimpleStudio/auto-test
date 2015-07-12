@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <script type="text/javascript">
-  var stepDataGrid = $('#stepDataGrid').datagrid({
-		url : '${ctx}' + '/step/dataGrid',
+  var scenarioDataGrid = $('#scenarioDataGrid').datagrid({
+		url : '${ctx}' + '/scenario/dataGrid',
 		striped : true,
 		rownumbers : true,
 		pagination : true,
@@ -45,7 +45,7 @@
 	});
 	
 </script>
-<table id="stepDataGrid" style="width：800px;"></table>
+<table id="scenarioDataGrid" style="width：800px;"></table>
 <div id="stepToolbar" style="padding:2px 5px;">
     <table style="width: 100%;">
     	<tr>
@@ -80,7 +80,7 @@
     			 }
     		 });
     	 };
-         $('#stepDataGrid').datagrid({
+         $('#scenarioDataGrid').datagrid({
         	 view: detailview,
              detailFormatter:function(index,row){
                  return '<div stle="over-flow:hidden;"><table class="ddv"></table></div>';
@@ -119,11 +119,11 @@
                          	}
                      ]],
                      onResize:function(){
-                    	 $('#stepDataGrid').datagrid('fixDetailRowHeight',index);
+                    	 $('#scenarioDataGrid').datagrid('fixDetailRowHeight',index);
                      },
                      onLoadSuccess:function(){
                          setTimeout(function(){
-                        	 $('#stepDataGrid').datagrid('fixDetailRowHeight',index);
+                        	 $('#scenarioDataGrid').datagrid('fixDetailRowHeight',index);
                          },0);
                      },
                      onClickRow:function(index){
@@ -150,19 +150,19 @@
                     		 }
                     		 $.post('${ctx}/step/saveStepParamValue',{stepId:row.id,constIds:idArr.join(',')},function(data){
                     			 ddv.datagrid('reload');
-                    			 $('#stepDataGrid').datagrid('reload');
+                    			 $('#scenarioDataGrid').datagrid('reload');
                     		 });
                    		 }
                      }]
                  });
-                 $('#stepDataGrid').datagrid('fixDetailRowHeight',index);
+                 $('#scenarioDataGrid').datagrid('fixDetailRowHeight',index);
              }
          });
      });
 	function saveStep(type){
 		var href = '${ctx}/step/savePage';
 		if(type == 1){
-			var selects = $('#stepDataGrid').datagrid('getSelections');
+			var selects = $('#scenarioDataGrid').datagrid('getSelections');
 			if(!selects || selects.length == 0){
 				$.messager.show({
 	                title:'系统提示',
@@ -195,7 +195,7 @@
 						url:'${ctx }/step/save',
 						success:function(){
 							$('#stepDialog').dialog('close');
-							$('#stepDataGrid').datagrid('reload');
+							$('#scenarioDataGrid').datagrid('reload');
 						}
 					});
 				}
@@ -211,7 +211,7 @@
 	function z(){
 		$.messager.confirm('确认', '您确认删除选中的步骤吗？删除时对应的设置参数值也将清空，请确认！', function(r){
 			if (r){
-				var selects = $('#stepDataGrid').datagrid('getSelections');
+				var selects = $('#scenarioDataGrid').datagrid('getSelections');
 				if(selects.length == 0){
 					$.messager.show({
 		                title:'系统提示',
@@ -228,7 +228,7 @@
 					ids+=selects[i].id;
 				}
 				$.post('${ctx}/step/delete',{ids:ids},function(data){
-					$('#stepDataGrid').datagrid('reload');
+					$('#scenarioDataGrid').datagrid('reload');
 				});
 			}
 		});
@@ -236,7 +236,7 @@
 	$('#stepSearchKey').textbox({
 		onClickButton : function(){
 			var searchKey = $('#stepSearchKey').textbox('getValue');
-			$('#stepDataGrid').datagrid('load',{'key':searchKey});
+			$('#scenarioDataGrid').datagrid('load',{'key':searchKey});
 		}
 	});
 </script>
