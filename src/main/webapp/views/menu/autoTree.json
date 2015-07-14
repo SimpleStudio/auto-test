@@ -24,7 +24,7 @@
         "text": "测试场景管理",
         "iconCls": "icon_scenriao",
         "attributes": {
-            "url": "/demo/book/abc"
+            "url": "/scenario/list"
         }
     },
     {

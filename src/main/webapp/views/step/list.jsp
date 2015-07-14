@@ -208,7 +208,7 @@
 			}]
 		});
 	}
-	function z(){
+	function batchDelStep(){
 		$.messager.confirm('确认', '您确认删除选中的步骤吗？删除时对应的设置参数值也将清空，请确认！', function(r){
 			if (r){
 				var selects = $('#stepDataGrid').datagrid('getSelections');

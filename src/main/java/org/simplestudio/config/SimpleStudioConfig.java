@@ -2,6 +2,7 @@ package org.simplestudio.config;
 
 import org.simplestudio.controller.ConstantController;
 import org.simplestudio.controller.IndexController;
+import org.simplestudio.controller.ScenarioController;
 import org.simplestudio.controller.StepController;
 import org.simplestudio.controller.StepTplController;
 import org.simplestudio.dao.Constant;
@@ -72,6 +73,7 @@ public class SimpleStudioConfig extends JFinalConfig {
 		routes.add("/steptpl",StepTplController.class);
 		routes.add("/constant",ConstantController.class);
 		routes.add("/step",StepController.class);
+		routes.add("/scenario",ScenarioController.class);
 	}
 
 }

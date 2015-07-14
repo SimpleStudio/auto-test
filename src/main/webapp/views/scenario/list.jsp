@@ -20,50 +20,33 @@
 			hidden : true
 		}, {
 			width : '20%',
-			title : '步骤名称',
+			title : '场景名称',
 			field : 'name',
 			sortable : true
-		} , {
-			width : '25%',
-			title : '步骤模板',
-			field : 'expression',
-			sortable : true
-		}, {
-			width : '50%',
-			title : '提示信息',
-			field : 'argsNum',
-			sortable : false,
-			formatter:function(val,row){
-				if(val-row.setStepId==0){
-					return "<font color='green'>参数设置完成</font>";
-				}else if(val >0){
-					return "<font color='red'>还有"+(val-row.setStepId)+"个参数需要设置，请展开进行设置</font>";
-				}
-			}
 		}] ],
-		toolbar : '#stepToolbar'
+		toolbar : '#scenarioToolbar'
 	});
 	
 </script>
 <table id="scenarioDataGrid" style="width：800px;"></table>
-<div id="stepToolbar" style="padding:2px 5px;">
+<div id="scenarioToolbar" style="padding:2px 5px;">
     <table style="width: 100%;">
     	<tr>
     		<td>
-    			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="saveStep(0)">新增</a>
-    			<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="saveStep(1)">编辑</a>
-       			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="batchDelStep()">删除</a>
+    			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="saveScenario(0)">新增</a>
+    			<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="saveScenario(1)">编辑</a>
+       			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="batchDelScenario()">删除</a>
     		</td>
     		<td align="right">
-      			<input id="stepSearchKey" class="easyui-textbox" data-options="buttonText:'搜索',buttonIcon:'icon-search',prompt:'请输入过滤的步骤名称'" style="width:250px;height:24px;">
+      			<input id="scenarioSearchKey" class="easyui-textbox" data-options="buttonText:'搜索',buttonIcon:'icon-search',prompt:'请输入过滤的场景名称'" style="width:250px;height:24px;">
     		</td>
     	</tr>
     </table>
 </div>
-<div id="stepDialog"></div>
+<div id="scenarioDialog"></div>
 <script type="text/javascript">
      $(function(){
-    	 var stepLoader = function(param,success,error){
+    	 var scenStepLoader = function(param,success,error){
     		 var key = param.q;
     		 $.ajax({
     			 url: '${ctx}/constant/getConstList',
@@ -91,13 +74,13 @@
             	 }
                  var ddv = $(this).datagrid('getRowDetail',index).find('table.ddv');
                  ddv.datagrid({
-                     url:'${ctx}/step/subDataGrid?stepId='+row.id,
+                     url:'${ctx}/scenario/subDataGrid?stepId='+row.id,
                      loadMsg:"数据加载中...", 
                      singleSelect:true,
                      fitColumns:true,
                      height:'auto',
                      rownumbers:true,
-                     columns:[[
+                     columns:[
                          {
                         	 field:'constant_id',
                         	 title:'参数值',
@@ -113,11 +96,11 @@
 	                                 valueField:'id',
 	                                 textField:'name',
 	                                 mode:'remote',
-	                                 loader:stepLoader,
+	                                 loader:scenStepLoader,
 	                                 required:true
 	                             }}
                          	}
-                     ]],
+                     ],
                      onResize:function(){
                     	 $('#scenarioDataGrid').datagrid('fixDetailRowHeight',index);
                      },
@@ -148,7 +131,7 @@
                     			 }
                     			 idArr.push(constId);
                     		 }
-                    		 $.post('${ctx}/step/saveStepParamValue',{stepId:row.id,constIds:idArr.join(',')},function(data){
+                    		 $.post('${ctx}/scenario/saveStepParamValue',{stepId:row.id,constIds:idArr.join(',')},function(data){
                     			 ddv.datagrid('reload');
                     			 $('#scenarioDataGrid').datagrid('reload');
                     		 });
@@ -159,8 +142,8 @@
              }
          });
      });
-	function saveStep(type){
-		var href = '${ctx}/step/savePage';
+	function saveScenario(type){
+		var href = '${ctx}/scenario/savePage';
 		if(type == 1){
 			var selects = $('#scenarioDataGrid').datagrid('getSelections');
 			if(!selects || selects.length == 0){
@@ -181,8 +164,8 @@
 			}
 			href+="?id="+selects[0].id;
 		}
-		$('#stepDialog').dialog({
-			title : type==0?'添加步骤':'编辑步骤',
+		$('#scenarioDialog').dialog({
+			title : type==0?'添加场景':'编辑场景',
 			width : 450,
 			height : 235,
 			href : href,
@@ -191,10 +174,10 @@
 				text:'确定',
 				iconCls:'icon-ok',
 				handler:function(){
-					$('#stepManageForm').form('submit',{
-						url:'${ctx }/step/save',
+					$('#scenarioManageForm').form('submit',{
+						url:'${ctx }/scenario/save',
 						success:function(){
-							$('#stepDialog').dialog('close');
+							$('#scenarioDialog').dialog('close');
 							$('#scenarioDataGrid').datagrid('reload');
 						}
 					});
@@ -203,12 +186,12 @@
 				text:'取消',
 				iconCls:'icon-cancel',
 				handler:function(){
-					$('#stepDialog').dialog('close');
+					$('#scenarioDialog').dialog('close');
 				}
 			}]
 		});
 	}
-	function z(){
+	function batchDelScenario(){
 		$.messager.confirm('确认', '您确认删除选中的步骤吗？删除时对应的设置参数值也将清空，请确认！', function(r){
 			if (r){
 				var selects = $('#scenarioDataGrid').datagrid('getSelections');
@@ -227,15 +210,15 @@
 					}
 					ids+=selects[i].id;
 				}
-				$.post('${ctx}/step/delete',{ids:ids},function(data){
+				$.post('${ctx}/scenario/delete',{ids:ids},function(data){
 					$('#scenarioDataGrid').datagrid('reload');
 				});
 			}
 		});
 	}
-	$('#stepSearchKey').textbox({
+	$('#scenarioSearchKey').textbox({
 		onClickButton : function(){
-			var searchKey = $('#stepSearchKey').textbox('getValue');
+			var searchKey = $('#scenarioSearchKey').textbox('getValue');
 			$('#scenarioDataGrid').datagrid('load',{'key':searchKey});
 		}
 	});

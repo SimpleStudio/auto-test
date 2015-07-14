@@ -1,10 +1,11 @@
 package org.simplestudio.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.simplestudio.dao.Scenario;
-import org.simplestudio.dao.StepTpl;
 import org.simplestudio.util.ConstantUtil;
 
 import com.jfinal.core.Controller;
+import com.jfinal.plugin.activerecord.Page;
 
 /** 
  * @author zhengzhq E-mail:zzq0324@qq.com 
@@ -19,6 +20,13 @@ public class ScenarioController extends Controller{
 	public void dataGrid(){
 		int pageNumber = getParaToInt("page");
 		int pageSize = getParaToInt("rows");
+		String sql = "select * from t_scenario where 1=1 ";
+		String key = getPara("key");
+		if (StringUtils.isNotBlank(key)) {
+			sql += " and name like '%" + key.trim() + "%'";
+		}
+		Page<Scenario> page = Scenario.dao.paginate(pageNumber, pageSize, sql, " order by create_time desc");
+		renderJson(page);
 	}
 	
 	public void savePage(){
