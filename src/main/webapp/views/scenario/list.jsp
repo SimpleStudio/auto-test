@@ -19,10 +19,14 @@
 			field : 'id',
 			hidden : true
 		}, {
-			width : '20%',
+			width : '35%',
 			title : '场景名称',
 			field : 'name',
 			sortable : true
+		} , {
+			width : '60%',
+			title : '场景描述',
+			field : 'remark'
 		}] ],
 		toolbar : '#scenarioToolbar'
 	});
@@ -33,12 +37,12 @@
     <table style="width: 100%;">
     	<tr>
     		<td>
-    			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="saveScenario(0)">新增</a>
-    			<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="saveScenario(1)">编辑</a>
-       			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="batchDelScenario()">删除</a>
+    			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="saveStep(0)">新增</a>
+    			<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="saveStep(1)">编辑</a>
+       			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="batchDelStep()">删除</a>
     		</td>
     		<td align="right">
-      			<input id="scenarioSearchKey" class="easyui-textbox" data-options="buttonText:'搜索',buttonIcon:'icon-search',prompt:'请输入过滤的场景名称'" style="width:250px;height:24px;">
+      			<input id="scenarioSearchKey" class="easyui-textbox" data-options="buttonText:'搜索',buttonIcon:'icon-search',prompt:'请输入过滤的步骤名称'" style="width:250px;height:24px;">
     		</td>
     	</tr>
     </table>
@@ -46,10 +50,15 @@
 <div id="scenarioDialog"></div>
 <script type="text/javascript">
      $(function(){
-    	 var scenStepLoader = function(param,success,error){
+    	 function initOperate(datagrid){
+    		 var removeHtml = "<a href='javascript:;' style='margin-right:10px;'><img src='${ctx}/img/remove.png' style='border:0'/></a>";
+        	 var upHtml = "<a href='javascript:;' style='margin-right:10px;'><img src='${ctx}/img/up.png' style='border:0'/></a>";
+        	 var downHtml = "<a href='javascript:;' style='margin-right:10px;'><img src='${ctx}/img/down.png' style='border:0'/></a>";
+    	 }
+    	 var stepLoader = function(param,success,error){
     		 var key = param.q;
     		 $.ajax({
-    			 url: '${ctx}/constant/getConstList',
+    			 url: '${ctx}/scenario/getStepList',
                  dataType: 'json',
                  method:'post',
                  data: {
@@ -74,33 +83,35 @@
             	 }
                  var ddv = $(this).datagrid('getRowDetail',index).find('table.ddv');
                  ddv.datagrid({
-                     url:'${ctx}/scenario/subDataGrid?stepId='+row.id,
+                     url:'${ctx}/scenario/subGrid?scenId='+row.id,
                      loadMsg:"数据加载中...", 
                      singleSelect:true,
                      fitColumns:true,
                      height:'auto',
                      rownumbers:true,
-                     columns:[
+                     columns:[[
                          {
-                        	 field:'constant_id',
-                        	 title:'参数值',
-                        	 width:'98%', 
-                        	 formatter:function(value,row){
-                        		 if(row.name){
-                        			 return row.name+'('+row.value+')';
-                        		 }
-    	                     },
+                        	 field:'name',
+                        	 title:'步骤名称',
+                        	 width:'80%',
                         	 editor:{
 	                             type:'combobox',
 	                             options:{
 	                                 valueField:'id',
 	                                 textField:'name',
 	                                 mode:'remote',
-	                                 loader:scenStepLoader,
+	                                 loader:stepLoader,
 	                                 required:true
 	                             }}
+                         	},{
+                         		field:'format',
+                         		title:'操作',
+                         		width:'15%',
+                         		formatter:function(){
+                         			return removeHtml+upHtml+downHtml;
+                         		}
                          	}
-                     ],
+                     ]],
                      onResize:function(){
                     	 $('#scenarioDataGrid').datagrid('fixDetailRowHeight',index);
                      },
@@ -113,6 +124,12 @@
                     	 ddv.datagrid('beginEdit',index);
                      },
                      toolbar : [{
+                    	text:'增加步骤',
+                    	iconCls:'icon-add',
+                    	handler:function(){
+                    		ddv.datagrid('appendRow',{name:'',id:0,format:''});
+                    	}
+                     }, {
                     	 text : '保存',
                     	 iconCls:'icon-save',
                     	 handler:function(){
@@ -131,7 +148,7 @@
                     			 }
                     			 idArr.push(constId);
                     		 }
-                    		 $.post('${ctx}/scenario/saveStepParamValue',{stepId:row.id,constIds:idArr.join(',')},function(data){
+                    		 $.post('${ctx}/step/saveStepParamValue',{stepId:row.id,constIds:idArr.join(',')},function(data){
                     			 ddv.datagrid('reload');
                     			 $('#scenarioDataGrid').datagrid('reload');
                     		 });
@@ -142,7 +159,7 @@
              }
          });
      });
-	function saveScenario(type){
+	function saveStep(type){
 		var href = '${ctx}/scenario/savePage';
 		if(type == 1){
 			var selects = $('#scenarioDataGrid').datagrid('getSelections');
@@ -191,8 +208,8 @@
 			}]
 		});
 	}
-	function batchDelScenario(){
-		$.messager.confirm('确认', '您确认删除选中的步骤吗？删除时对应的设置参数值也将清空，请确认！', function(r){
+	function batchDelStep(){
+		$.messager.confirm('确认', '您确认删除选中的场景吗？删除时所设置的对应步骤也将清空，请确认！', function(r){
 			if (r){
 				var selects = $('#scenarioDataGrid').datagrid('getSelections');
 				if(selects.length == 0){

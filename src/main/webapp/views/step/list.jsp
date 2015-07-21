@@ -228,7 +228,11 @@
 					ids+=selects[i].id;
 				}
 				$.post('${ctx}/step/delete',{ids:ids},function(data){
-					$('#stepDataGrid').datagrid('reload');
+					if(data == 'success'){
+						$('#stepDataGrid').datagrid('reload');
+					}else{
+						$.messager.alert({title:'系统提示',msg:data});
+					}
 				});
 			}
 		});

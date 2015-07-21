@@ -58,6 +58,14 @@
 	background: url('../img/constant.gif') no-repeat center center;
 }
 
+.icon_down {
+	background: url('../img/down.png') no-repeat center center;
+}
+
+.icon_up {
+	background: url('../img/up.png') no-repeat center center;
+}
+
 .grid {
     border: 1px solid #eee;
     font: 12px arial,helvetica,sans-serif;

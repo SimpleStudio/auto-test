@@ -3,6 +3,7 @@ package org.simplestudio.controller;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.simplestudio.dao.ScenStep;
 import org.simplestudio.dao.Step;
 import org.simplestudio.dao.StepConst;
 import org.simplestudio.dao.StepTpl;
@@ -87,18 +88,32 @@ public class StepController extends Controller{
 	
 	public void detele(){
 		String ids = getPara("ids");
+		String renderText = ConstantUtil.RESULT_SUCCESS;
 		if(StringUtils.isNotBlank(ids)){
 			String[] idArr = ids.split(",");
+			//检测是否被场景使用，使用则不能删除
+			StringBuffer errorMsg = new StringBuffer();
 			for(String id : idArr){
-				long stepId = Long.parseLong(id);
-				//删除参数值
-				Db.update("delete from t_step_const where step_id=?",stepId);
-				//删除步骤
-				Step.dao.deleteById(stepId);
+				ScenStep scenStep = ScenStep.dao.findFirst("select * from t_scen_step where step_id=?", Long.parseLong(id));
+				if(scenStep != null){
+					Step step = Step.dao.findById(scenStep.getLong("id"));
+					errorMsg.append("[").append(step.getStr("name")).append("]");
+				}
+			}
+			if(errorMsg.length() == 0){
+				for(String id : idArr){
+					long stepId = Long.parseLong(id);
+					//删除参数值
+					Db.update("delete from t_step_const where step_id=?",stepId);
+					//删除步骤
+					Step.dao.deleteById(stepId);
+				}
+			}else{
+				renderText = errorMsg.toString();
 			}
 		}
 		
-		renderText(ConstantUtil.RESULT_SUCCESS);
+		renderText(renderText);
 	}
 	
 }
