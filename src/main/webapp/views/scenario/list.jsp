@@ -42,19 +42,19 @@
        			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="batchDelStep()">删除</a>
     		</td>
     		<td align="right">
-      			<input id="scenarioSearchKey" class="easyui-textbox" data-options="buttonText:'搜索',buttonIcon:'icon-search',prompt:'请输入过滤的步骤名称'" style="width:250px;height:24px;">
+      			<input id="scenarioSearchKey" class="easyui-textbox" data-options="buttonText:'搜索',buttonIcon:'icon-search',prompt:'请输入过滤的场景名称'" style="width:250px;height:24px;">
     		</td>
     	</tr>
     </table>
 </div>
 <div id="scenarioDialog"></div>
 <script type="text/javascript">
+	var removeTR=function(obj){
+		 var rowIndex = $(obj).closest('tr').attr('datagrid-row-index');
+		 var ddv = $(obj).closest('table.ddv');
+		 ddv.datagrid('deleteRow',rowIndex);
+	};
      $(function(){
-    	 function initOperate(datagrid){
-    		 var removeHtml = "<a href='javascript:;' style='margin-right:10px;'><img src='${ctx}/img/remove.png' style='border:0'/></a>";
-        	 var upHtml = "<a href='javascript:;' style='margin-right:10px;'><img src='${ctx}/img/up.png' style='border:0'/></a>";
-        	 var downHtml = "<a href='javascript:;' style='margin-right:10px;'><img src='${ctx}/img/down.png' style='border:0'/></a>";
-    	 }
     	 var stepLoader = function(param,success,error){
     		 var key = param.q;
     		 $.ajax({
@@ -78,9 +78,6 @@
                  return '<div stle="over-flow:hidden;"><table class="ddv"></table></div>';
              },
              onExpandRow: function(index,row){
-            	 if(row.argsNum ==0){
-            		 return ;
-            	 }
                  var ddv = $(this).datagrid('getRowDetail',index).find('table.ddv');
                  ddv.datagrid({
                      url:'${ctx}/scenario/subGrid?scenId='+row.id,
@@ -108,6 +105,9 @@
                          		title:'操作',
                          		width:'15%',
                          		formatter:function(){
+                         			var removeHtml = "<a href='javascript:;' style='margin-right:10px;' onclick='removeTR(this)'><img src='${ctx}/img/remove.png' style='border:0'/></a>";
+                         	       	 var upHtml = "<a href='javascript:;' style='margin-right:10px;'><img src='${ctx}/img/up.png' style='border:0'/></a>";
+                         	       	 var downHtml = "<a href='javascript:;' style='margin-right:10px;'><img src='${ctx}/img/down.png' style='border:0'/></a>";
                          			return removeHtml+upHtml+downHtml;
                          		}
                          	}
@@ -128,6 +128,7 @@
                     	iconCls:'icon-add',
                     	handler:function(){
                     		ddv.datagrid('appendRow',{name:'',id:0,format:''});
+                    		$('#scenarioDataGrid').datagrid('fixDetailRowHeight',index);
                     	}
                      }, {
                     	 text : '保存',
@@ -135,20 +136,12 @@
                     	 handler:function(){
                     		 var idArr = [];
                     		 var datas = ddv.datagrid('getData').rows;
+                    		 console.log(datas)
                     		 for(var i=0;i<datas.length;i++){
                     			 ddv.datagrid('endEdit',i);
-                    			 var constId = datas[i].constant_id;
-                    			 if(!constId){
-                    				 $.messager.show({
-                  		                title:'系统提示',
-                  		                msg:'请设置好参数之后再保存！',
-                  		                showType:'show'
-                  		            });
-                    				 return ;
-                    			 }
-                    			 idArr.push(constId);
+                    			 idArr.push(datas[i].tpl_id?datas[i].id:datas[i].name);
                     		 }
-                    		 $.post('${ctx}/step/saveStepParamValue',{stepId:row.id,constIds:idArr.join(',')},function(data){
+                    		 $.post('${ctx}/scenario/saveScenStep',{scenId:row.id,stepIds:idArr.join(',')},function(data){
                     			 ddv.datagrid('reload');
                     			 $('#scenarioDataGrid').datagrid('reload');
                     		 });

@@ -1,11 +1,13 @@
 package org.simplestudio.config;
 
 import org.simplestudio.controller.ConstantController;
+import org.simplestudio.controller.FeatureController;
 import org.simplestudio.controller.IndexController;
 import org.simplestudio.controller.ScenarioController;
 import org.simplestudio.controller.StepController;
 import org.simplestudio.controller.StepTplController;
 import org.simplestudio.dao.Constant;
+import org.simplestudio.dao.Feature;
 import org.simplestudio.dao.ScenStep;
 import org.simplestudio.dao.Scenario;
 import org.simplestudio.dao.Step;
@@ -65,6 +67,7 @@ public class SimpleStudioConfig extends JFinalConfig {
 		arp.addMapping("t_step_const", StepConst.class);
 		arp.addMapping("t_scenario", Scenario.class);
 		arp.addMapping("t_scen_step", ScenStep.class);
+		arp.addMapping("t_feature", Feature.class);
 	}
 
 	@Override
@@ -74,6 +77,7 @@ public class SimpleStudioConfig extends JFinalConfig {
 		routes.add("/constant",ConstantController.class);
 		routes.add("/step",StepController.class);
 		routes.add("/scenario",ScenarioController.class);
+		routes.add("/feature",FeatureController.class);
 	}
 
 }

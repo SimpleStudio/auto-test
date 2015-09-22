@@ -86,8 +86,22 @@ public class ScenarioController extends Controller{
 	
 	public void subGrid(){
 		long scenarioId = getParaToLong("scenId");
-		String sql = "select a.* from t_scen_step a inner join t_step b on a.step_id=b.id and a.scen_id=? order by a.order";
+		String sql = "select b.* from t_scen_step a inner join t_step b on a.step_id=b.id and a.scen_id=? order by a.order";
 		List<Step> stepList = Step.dao.find(sql, scenarioId);
 		renderJson(stepList);
+	}
+	
+	public void saveScenStep(){
+		long scenId = getParaToLong("scenId");
+		String stepIds = getPara("stepIds");
+		//先删除原先的关系，再保存
+		Db.update("delete from t_scen_step where scen_id=?",scenId);
+		String[] idArr = stepIds.split(",");
+		int index = 0;
+		for(String ids : idArr){
+			long stepId = Long.parseLong(ids);
+			Db.update("insert into t_scen_step(scen_id,step_id,`order`) values(?,?,?)",scenId,stepId,index++);
+		}
+		renderText(ConstantUtil.RESULT_SUCCESS);
 	}
 }

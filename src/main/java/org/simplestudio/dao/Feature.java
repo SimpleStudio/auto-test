@@ -14,4 +14,5 @@ public class Feature extends Model<Feature> {
 	public static final String NAME = "name";
 	public static final String FILE_NAME = "file_name";
 	public static final String REMARK = "remark";
+	public static final String UPDATE_TIME = "update_time";
 }
